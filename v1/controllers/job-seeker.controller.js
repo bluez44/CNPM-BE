@@ -35,6 +35,7 @@ module.exports.register = async (req, res) => {
         gender: req.body.gender,
         phone: req.body.phone,
         address: req.body.address,
+        status: "finding",
         token: generateHelper.generateRandomString(20)
     }
 

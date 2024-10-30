@@ -1,15 +1,13 @@
-const taskRoutes = require("./task.route.js");
+const resumeRoutes = require("./resume.route.js")
 const jobSeekerRoutes = require("./job-seeker.route.js")
 const recruiterRoutes = require("./recruiter.route.js")
 
-// const requireAuth = require("../../middlewares/auth.middleware.js");
+const requireAuth = require("../../middlewares/auth.middleware");
 
 module.exports = (app) => {
     const version = "/api/v1";
 
-    app.use(`${version}/tasks`, taskRoutes)
-
-    // requireAuth.requireAuth
+    app.use(`${version}/resumes`, requireAuth.requireAuth, resumeRoutes)
 
     app.use(`${version}/job-seeker`, jobSeekerRoutes)
 
