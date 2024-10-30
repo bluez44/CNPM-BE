@@ -1,8 +1,9 @@
 const JobSeeker = require("../v1/models/job-seeker.model");
+const Recruiter = require("../v1/models/recruiter.model.js")
 
 module.exports.requireAuth = async (req, res, next) => {
 
-    if (!req.headers.authorization){
+    if (!req.headers.authorization) {
         res.json({
             code: 400,
             message: 'Vui lòng lòng gửi lên token!'
@@ -15,8 +16,11 @@ module.exports.requireAuth = async (req, res, next) => {
     const jobSeeker = await JobSeeker.findOne({
         token: token,
     })
+    const recruiter = await Recruiter.findOne({
+        token: token,
+    })
 
-    if (!jobSeeker){
+    if (!jobSeeker && !recruiter) {
         res.json({
             code: 400,
             message: 'Không có dữ liệu về người dùng!'
@@ -24,7 +28,13 @@ module.exports.requireAuth = async (req, res, next) => {
         return;
     }
 
-    res.locals.jobSeeker = jobSeeker;
+    if (jobSeeker) {
+        res.locals.jobSeeker = jobSeeker;
+    }
+    else {
+        res.locals.recruiter = recruiter;
+    }
+
 
     next();
 }
